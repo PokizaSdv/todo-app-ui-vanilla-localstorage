@@ -89,7 +89,36 @@ class TodoApp {
             this.renderTodo(todo);
         }
     };
-    
+
+    initForm = () => {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            const input = document.querySelector(".todo-input");
+            const textValue = input.value;
+
+            if(textValue.length < 3)  {
+                return
+            }
+            const id = crypto.randomUUID();
+            const todo = {
+                text: textValue,
+                status: "todo",
+                id: id
+            };
+            this.addTodo(todo);
+            input.value = "";
+
+            this.renderTodos();
+        });
+    };
+
+    init = () => {
+        this.renderTodos();
+        this.initForm();
+    };
 }
 
 const app = new TodoApp();
+app.init()
