@@ -33,3 +33,21 @@ class Storage {
 }
 
 const storage = new Storage();
+
+class TodoApp {
+    static ul = document.querySelector(".todos");
+
+    changeTodoStatus = (id, status) => {
+        storage.changeStatus(id, status);
+    };
+    deleteTodo = (id) => {
+        storage.delete(id);
+    };
+
+    addTodo = (todo) => {
+        storage.add(todo)
+    }
+    
+}
+
+const app = new TodoApp();
