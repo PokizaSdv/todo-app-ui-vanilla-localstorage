@@ -47,6 +47,48 @@ class TodoApp {
     addTodo = (todo) => {
         storage.add(todo)
     }
+
+    renderTodo = ({ text, id, status }) => {
+        const li = document.createElement("li");
+        li.innerText = text;
+
+        const checkbox = document.createElement("input");
+        checkbox.setAttribute("type", "checkbox");
+        if (status === "done") {
+            li.style.textDecoration = "line-through";
+            checkbox.checked = true;
+        }
+
+        const closeIcon = document.createElement("span");
+        closeIcon.innerHTML = "&times;";
+        closeIcon.style.cursor = "pointer";
+
+        closeIcon.addEventListener("click", (e) => {
+            this.deleteTodo(id);
+            this.renderTodos();
+        });
+
+        checkbox.addEventListener("change", (e) => {
+            if (checkbox.checked) {
+                this.changeTodoStatus(id, "done");
+            } else {
+                this.changeTodoStatus(id, "todo");
+            }
+
+            this.renderTodos();
+        });
+
+        li.appendChild(checkbox);
+        li.appendChild(closeIcon);
+        TodoApp.ul.appendChild(li);
+    };
+
+    renderTodos = () => {
+        TodoApp.ul.innerHTML = "";
+        for (const todo of storage.get()) {
+            this.renderTodo(todo);
+        }
+    };
     
 }
 
